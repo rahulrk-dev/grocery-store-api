@@ -11,6 +11,10 @@ export interface IGetUserAuthInfoRequest extends Request {
 	}
 }
 
+interface jwtVerifyPayload extends jwt.JwtPayload {
+	role: Roles
+}
+
 const authenticate = async (
 	req: Request,
 	_res: Response,
@@ -21,7 +25,10 @@ const authenticate = async (
 	try {
 		if (type !== 'Bearer' || !token) throw 'err'
 
-		const verify = await jwt.verify(token, config.jwt.secret)
+		const verify = (await jwt.verify(
+			token,
+			config.jwt.secret
+		)) as jwtVerifyPayload
 
 		req['user'] = { id: verify.sub, role: verify.role }
 
