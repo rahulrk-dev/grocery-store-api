@@ -1,4 +1,5 @@
 import db from '../config/database'
+import { Query, QueryOptions } from 'mysql2'
 
 export default class GroceryItemService {
 	static async addGroceryItem({
@@ -19,8 +20,15 @@ export default class GroceryItemService {
 		return groceryItem
 	}
 
-	static async getAllGroceryItems() {
-		const groceryItems = await db.GroceryItem.findAll()
+	static async getAllGroceryItems(page: number = 1, limit: number = 0) {
+		const query = {} as { offset?: number; limit?: number }
+
+		if (limit) {
+			const offset = (page - 1) * limit
+			query.offset = offset
+			query.limit = limit
+		}
+		const groceryItems = await db.GroceryItem.findAll(query)
 
 		return groceryItems
 	}

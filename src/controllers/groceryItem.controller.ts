@@ -21,7 +21,12 @@ export default class GroceryItemController {
 	}
 
 	static async getAllGroceryItemsHandler(req: Request, res: Response) {
-		const groceryItems = await GroceryItemService.getAllGroceryItems()
+		const { page, limit }: { page?: number; limit?: number } = req.query
+
+		const groceryItems = await GroceryItemService.getAllGroceryItems(
+			page,
+			limit
+		)
 
 		if (!groceryItems.length) throw new ApiError(404, 'No grocery items found')
 

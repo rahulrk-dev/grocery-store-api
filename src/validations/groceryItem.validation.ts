@@ -24,6 +24,11 @@ export default class GroceryItemValidation {
 			.withMessage('Unit must be one of ' + units),
 	]
 
+	static getAllGroceryItemsValidation = [
+		check('page').optional().toInt().isInt({ min: 1 }),
+		check('limit').optional().toInt().isInt({ min: 0 }),
+	]
+
 	static updateGroceryItemValidation = [
 		check('groceryItemId').trim().isInt({ min: 1 }),
 		check('name').trim().notEmpty().withMessage('Name is required'),

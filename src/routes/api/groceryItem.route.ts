@@ -19,7 +19,11 @@ groceryItemRouter
 		validate,
 		catchAsync(GroceryItemController.addGroceryItemHandler)
 	)
-	.get(catchAsync(GroceryItemController.getAllGroceryItemsHandler))
+	.get(
+		GroceryItemValidation.getAllGroceryItemsValidation,
+		validate,
+		catchAsync(GroceryItemController.getAllGroceryItemsHandler)
+	)
 
 groceryItemRouter
 	.route('/:groceryItemId')
